@@ -1,0 +1,193 @@
+[
+  {
+    "name": "Frontend",
+    "skills": [
+      {
+        "name": "SvelteKit",
+        "level": 4,
+        "icon": "sveltelogo.svg"
+      },
+      {
+        "name": "SkeletonUI",
+        "level": 4,
+        "icon": "skeletonlogo.svg"
+      },
+      {
+        "name": "TailwindCSS",
+        "level": 4,
+        "icon": "tailwindlogo.svg"
+      },
+      {
+        "name": "HTML",
+        "level": 5,
+        "icon": "html5logo.svg"
+      },
+      {
+        "name": "CSS",
+        "level": 4,
+        "icon": "csslogo.svg"
+      }
+    ]
+  },
+  {
+    "name": "Backend",
+    "skills": [
+      {
+        "name": "Django",
+        "level": 4,
+        "icon": "djangologo.svg"
+      },
+      {
+        "name": "Django Rest Framework",
+        "level": 4,
+        "icon": "drflogo.svg"
+      },
+      {
+        "name": "Supabase",
+        "level": 3,
+        "icon": "supabaselogo.svg"
+      },
+      {
+        "name": "SpringBoot",
+        "level": 2,
+        "icon": "springbootlogo.svg"
+      },
+      {
+        "name": "Flask",
+        "level": 2,
+        "icon": "flasklogo.svg"
+      },
+      {
+        "name": "Node JS",
+        "level": 2,
+        "icon": "nodejslogo.svg"
+      }
+    ]
+  },
+  {
+    "name": "Databases",
+    "skills": [
+      {
+        "name": "PostgreSQL",
+        "level": 3,
+        "icon": "postgreslogo.svg"
+      },
+      {
+        "name": "MySQL",
+        "level": 2,
+        "icon": "mysqllogo.svg"
+      },
+      {
+        "name": "SQL Server",
+        "level": 2,
+        "icon": "sqlserverlogo.svg"
+      },
+      {
+        "name": "SQLite3",
+        "level": 2,
+        "icon": "sqllitelogo.svg"
+      }
+    ]
+  },
+  {
+    "name": "Mobile",
+    "skills": [
+      {
+        "name": "Flutter",
+        "level": 3,
+        "icon": "flutterlogo.svg"
+      }
+    ]
+  },
+  {
+    "name": "Cloud & DevOps",
+    "skills": [
+      
+      {
+        "name": "Docker Compose",
+        "level": 4,
+        "icon": "dockercomposelogo.png"
+      },
+      {
+        "name": "Docker",
+        "level": 3,
+        "icon": "dockerlogo.svg"
+      },
+      {
+        "name": "Linux",
+        "level": 4,
+        "icon": "linuxlogo.svg"
+      },
+      {
+        "name": "Nginx",
+        "level": 3,
+        "icon": "nginxlogo.svg"
+      },
+      {
+        "name": "AWS",
+        "level": 2,
+        "icon": "awslogo.svg"
+      },
+      {
+        "name": "Git",
+        "level": 3,
+        "icon": "gitlogo.svg"
+      }
+    ]
+  },
+  {
+    "name": "Languages",
+    "skills": [
+      {
+        "name": "Python",
+        "level": 4,
+        "icon": "pythonlogo.svg"
+      },
+      {
+        "name": "JavaScript",
+        "level": 4,
+        "icon": "jslogo.svg"
+      },
+      {
+        "name": "TypeScript",
+        "level": 3,
+        "icon": "typescriptlogo.svg"
+      },
+      {
+        "name": "Java",
+        "level": 3,
+        "icon": "javalogo.svg"
+      },
+      {
+        "name": "Dart",
+        "level": 3,
+        "icon": "dartlogo.svg"
+      },
+      {
+        "name": "Go",
+        "level": 2,
+        "icon": "gologo.svg"
+      },
+      {
+        "name": "C#",
+        "level": 3,
+        "icon": "csharplogo.svg"
+      },
+      {
+        "name": "C",
+        "level": 2,
+        "icon": "clogo.svg"
+      },
+      {
+        "name": "Rust",
+        "level": 1,
+        "icon": "rustlogo.svg"
+      },
+      {
+        "name": "Bash",
+        "level": 1,
+        "icon": "bashlogo.svg"
+      }
+    ]
+  }
+]

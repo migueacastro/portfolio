@@ -1,0 +1,206 @@
+[
+  {
+    "id": 1,
+    "thumbnail": "dimpro01.png",
+    "title": "Dimpro",
+    "description": "A seller orders management web application.",
+    "images": [
+      "dimpro01.png",
+      "dimpro02.png",
+      "dimpro03.png",
+      "dimpro04.png",
+      "dimpro05.png",
+      "dimpro06.png"
+    ],
+    "year": "2025",
+    "github": "https://github.com/migueacastro/dimpro-rest",
+    "hidden": false,
+    "mobile": false,
+    "skills": [
+      {
+        "name": "SvelteKit",
+        "icon": "sveltelogo.svg"
+      },
+      {
+        "name": "SkeletonUI",
+        "icon": "skeletonlogo.svg"
+      },
+      {
+        "name": "TailwindCSS",
+        "icon": "tailwindlogo.svg"
+      },
+      {
+        "name": "HTML",
+        "icon": "html5logo.svg"
+      },
+      {
+        "name": "CSS",
+        "icon": "csslogo.svg"
+      },
+      {
+        "name": "Django Rest Framework",
+        "icon":  "drflogo.svg"
+      },
+      {
+        "name": "Docker Compose",
+        "icon": "dockercomposelogo.png"
+      },
+      {
+        "name": "Docker",
+        "icon": "dockerlogo.svg"
+      },
+      {
+        "name": "Nginx",
+        "icon": "nginxlogo.svg"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "thumbnail": "sistema-orquesta01.png",
+    "title": "Sistema de Orquesta",
+    "description": "A tuition manager web application.",
+    "images": [
+      "sistema-orquesta01.png",
+      "sistema-orquesta02.png",
+      "sistema-orquesta03.png",
+      "sistema-orquesta04.png"
+    ],
+    "skills": [
+      {
+        "name":"Django",
+        "icon": "djangologo.svg"
+      },
+      {
+        "name":"TailwindCSS",
+        "icon": "tailwindlogo.svg"
+      },
+      {
+        "name":"JavaScript",
+        "icon":"jslogo.svg"
+      }
+    ],
+    "year": "2024",
+    "github": "https://github.com/migueacastro/sistema-de-orquesta",
+    "hidden": false,
+    "mobile": false
+  },
+  {
+    "id": 3,
+    "thumbnail": "capstone01.png",
+    "title": "Capstone",
+    "description": "A web application that can be used by a Cinema Company to address session booking in the user's side and the resource managment in the staff/admin dashboard.",
+    "images": [
+      "capstone01.png",
+      "capstone02.png",
+      "capstone03.png",
+      "capstone04.png",
+      "capstone05.png",
+      "capstone06.png",
+      "capstone07.png",
+      "capstone08.png"
+    ],
+     "skills": [
+      {
+        "name": "SvelteKit",
+        "icon": "sveltelogo.svg"
+      },
+      {
+        "name": "SkeletonUI",
+        "icon": "skeletonlogo.svg"
+      },
+      {
+        "name": "TailwindCSS",
+        "icon": "tailwindlogo.svg"
+      },
+      {
+        "name": "HTML",
+        "icon": "html5logo.svg"
+      },
+      {
+        "name": "CSS",
+        "icon": "csslogo.svg"
+      },
+      {
+        "name": "Django Rest Framework",
+        "icon":  "drflogo.svg"
+      },
+      {
+        "name": "Docker Compose",
+        "icon": "dockercomposelogo.png"
+      },
+      {
+        "name": "Docker",
+        "icon": "dockerlogo.svg"
+      },
+      {
+        "name": "Nginx",
+        "icon": "nginxlogo.svg"
+      }
+    ],
+    "year": "2024",
+    "github": "https://github.com/migueacastro/capstone",
+    "hidden": false,
+    "mobile": false
+  },
+  {
+    "id": 4,
+    "thumbnail": "realhouse01.png",
+    "title": "RealHouse",
+    "description": "A website where you can sponsor a deal of your place: whether it's an apartment, house or premise.",
+    "images": [
+      "realhouse01.png",
+      "realhouse02.png",
+      "realhouse03.png",
+      "realhouse04.png",
+      "realhouse05.png"
+    ],
+    "skills": [
+      {
+        "name":"Flask",
+        "icon":"flasklogo.svg"
+      },
+      {
+        "name":"Django",
+        "icon":"djangologo.svg"
+      },
+      {
+        "name":"HTML",
+        "icon":"html5logo.svg"
+      },
+      {
+        "name":"CSS",
+        "icon":"csslogo.svg"
+      },
+      {
+        "name":"JavaScript",
+        "icon":"jslogo.svg"
+      }
+    ],
+    "year": "2023",
+    "github": "https://github.com/migueacastro/realhouse",
+    "hidden": false,
+    "mobile": false
+  },
+  {
+    "id": 5,
+    "thumbnail": "castrofit01.jpg",
+    "title": "Castrofit",
+    "description": "A pedometer android application that can count distance and the estimated calories burnt.",
+    "images": [
+      "castrofit01.jpg",
+      "castrofit02.jpg",
+      "castrofit03.jpg"
+    ],
+    "skills":[
+      {
+        "icon":"flutterlogo.svg",
+        "name":"Flutter"
+      }
+    ],
+    "year": "2024",
+    "github": "https://github.com/migueacastro/flutter-castrofit",
+    "hidden": false,
+    "mobile": true
+  }
+]
