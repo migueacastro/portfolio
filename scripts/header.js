@@ -23,7 +23,9 @@ class SpecialHeader extends HTMLElement {
         class="flex flex-row space-x-5 md:space-x-[3rem] justify-center md:justify-end w-full text-xl md:text-4xl font-bold"
       >
         <li><a href="" class="hover:text-secondary"> Home </a></li>
-        <li><a href="/#projects-section" class="hover:text-secondary">Projects</a></li>
+        <li><a href="${window.location.href !== "/"
+          ? ""
+          : "/"}#projects-section" class="hover:text-secondary">Projects</a></li>
         <li><a href="" class="hover:text-secondary">Media</a></li>
       </ul>`;
 
@@ -41,6 +43,10 @@ class SpecialHeader extends HTMLElement {
         this.classList.add("text-surface2");
       }
     });
+    if (window.scrollY > 100) {
+      this.classList.add("bg-surface3/80", "text-surface2");
+      this.classList.remove("text-surface2");
+    }
   }
 }
 
@@ -147,7 +153,7 @@ class SkillsList extends HTMLElement {
   loadCategory(category) {
     let categoryElement = document.createElement("div");
     categoryElement.className = "my-4";
-    categoryElement.innerHTML = `<h2 class="text-3xl lg:text-6xl font-bold text-surface2 mb-4">
+    categoryElement.innerHTML = `<h2 class="text-3xl lg:text-6xl font-bold text-surface3 mb-4">
         ${category.name}
       </h2>
       <ul
@@ -210,7 +216,9 @@ class SkillsList extends HTMLElement {
 
 class ProjectModal extends HTMLElement {
   setTitle() {
-    this.contentElement.querySelector("#project-github").setAttribute("href", this.project.github);
+    this.contentElement
+      .querySelector("#project-github")
+      .setAttribute("href", this.project.github);
     this.contentElement.querySelector(
       "#project-modal-title"
     ).innerText = this.project.title;
@@ -263,7 +271,7 @@ class ProjectModal extends HTMLElement {
       skillElement.className =
         "p-2 md:p-3 flex-row flex space-x-2 bg-primary m-3 rounded-xl items-center";
       skillElement.innerHTML = `
-      <h4 class="text-xs md:text-sm text-surface2">${skill.name}</h4><img src="/media/${skill.icon}" class="w-[1rem] h-[1rem] md:w-[2rem] md:h-[2rem]"></img>
+      <h4 class="text-xs md:text-sm text-surface3">${skill.name}</h4><img src="/media/${skill.icon}" class="w-[1rem] h-[1rem] md:w-[2rem] md:h-[2rem]"></img>
       `;
       projectModalSkillsElement.appendChild(skillElement);
     }
@@ -412,9 +420,67 @@ class ProjectModal extends HTMLElement {
   }
 }
 
+class CertificationsList extends HTMLElement {
+  constructor() {
+    super();
+    this.id = "certifications-list-wrapper";
+    this.className = "flex flex-col w-3/4 mx-auto"
+    this.innerHTML = `
+        <h1 class="text-2xl lg:text-6xl font-bold text-surface2 mx-auto">
+          Certifications
+        </h1>
+        <div class="certifications-list space-y-3 md:space-y-0 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-2 md:gap-5 mb-[3rem] mt-[3rem] w-full">
+
+        </div>
+    `;
+  }
+  async connectedCallback() {
+    const path = this.getAttribute("path");
+    await this.fetchCertifications(path);
+    this.render();
+  }
+
+  async fetchCertifications(path) {
+    try {
+      const response = await fetch(path);
+      this.certifications = await response.json();
+      let certifications = this.certifications;
+    } catch (error) {
+      console.error("Error fetching certifications:", error);
+      this.certifications = [];
+      let certifications = [];
+    }
+  }
+  render() {
+    const certificationsListElement = this.querySelector(".certifications-list");
+    for (let certification of this.certifications) {
+      if (certification.hidden) continue;
+      certificationsListElement.appendChild(this.loadCertification(certification));
+    }
+  }
+
+  loadCertification(certification) {
+    const li = document.createElement("li");
+    li.id = certification.id;
+    li.className =
+      "";
+    li.innerHTML = `
+      <a target="_blank" href="${certification.url}" class="p-[1rem] flex flex-col rounded-xl space-y-2">
+        <h1 class="text-surface2 text-center font-bold text-2xl md:text-5xl">${certification.title}
+        </h1>
+        <img class="rounded-xl object-contain max-h-[20rem]" src="/media/${certification.image}">
+        </img>
+      </a>
+             `;
+    return li;
+  }
+
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   customElements.define("special-header", SpecialHeader);
   await customElements.define("projects-list", ProjectList);
   await customElements.define("skills-list", SkillsList);
   customElements.define("project-modal", ProjectModal);
+  customElements.define("certifications-list", CertificationsList);
 });
