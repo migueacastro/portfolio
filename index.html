@@ -5,10 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./scripts/header.js"></script>
+    <script src="./scripts/utils.js"></script>
   </head>
   <body>
     <project-modal> </project-modal>
+    <contact-modal></contact-modal>
 
     <special-header></special-header>
     <div class="flex flex-col">
@@ -47,7 +48,7 @@
               >
                 Crafting full-stack solutions that deliver real results.
               </h3>
-              <div class="flex flex-row space-x-2 xl:mt-[1rem] fill-primary">
+              <div class="flex items-center flex-row space-x-2 xl:mt-[1rem] fill-primary transition-all duration-200 w-fit hover:scale-110">
                 <a href="https://github.com/migueacastro" target="_blank">
                   <svg
                     class="h-[3rem] md:h-[5rem] w-fit hover:scale-110 hover:fill-secondary"
@@ -71,7 +72,9 @@
                     />
                   </svg>
                 </a>
+                <span class="hidden md:block"><contact-button></contact-button></span>
               </div>
+              <span class="block mt-5 md:hidden"><contact-button></contact-button></span>
             </div>
           </div>
           <div
