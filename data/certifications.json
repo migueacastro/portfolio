@@ -2,12 +2,14 @@
   {
     "title": "CS50X",
     "url": "https://certificates.cs50.io/ccf949c7-465c-4d83-9e9b-e0339c5596a6.pdf?size=letter",
+    "description": "Introduction to Computer Science",
     "image": "cs50x.png",
     "year": "2023"
   },
   {
     "title": "CS50W",
     "url": "https://certificates.cs50.io/62f76e14-a453-4811-9968-deca1d7cc704.pdf?size=letter",
+    "description": "Web Programming with Python and JavaScript",
     "image": "cs50w.png",
     "year": "2024"
   }

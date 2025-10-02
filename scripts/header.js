@@ -18,19 +18,101 @@ tailwind.config = {
 };
 
 class SpecialHeader extends HTMLElement {
+  constructor() {
+    super();
+    this.items = [
+      { name: "Home", id: "" },
+      { name: "Projects", id: "#projects-title" },
+      { name: "Skills", id: "#skills-title" },
+      { name: "Certifications", id: "#certifications" },
+      { name: "About", id: "#about-title" }
+    ];
+  }
+
   connectedCallback() {
     this.innerHTML = `<ul 
-        class="flex flex-row space-x-5 md:space-x-[3rem] justify-center md:justify-end w-full text-xl md:text-4xl font-bold"
+        class="md:flex hidden flex-row space-x-5 md:space-x-[1rem] lg:space-x-[3rem] justify-center md:justify-end w-full text-xl md:text-2xl lg:text-4xl font-bold desktop-list"
       >
-        <li><a href="" class="hover:text-secondary"> Home </a></li>
-        <li><a href="${window.location.href !== "/"
-          ? ""
-          : "/"}#projects-section" class="hover:text-secondary">Projects</a></li>
-        <li><a href="" class="hover:text-secondary">Media</a></li>
-      </ul>`;
+      </ul>
+     
+      
+      
+      <div class="hamburger-wrapper flex justify-end md:hidden"></div>
+      <div class="hidden flex-col w-full  bg-surface3 fixed top-0 left-0 hamburger-modal px-5 py-[2rem] z-50" >
+      <div class="w-full flex flex-row justify-end hamburger-close-button-wrapper">
+      </div>
+      <ul class="flex flex-col md:hidden justify-end mobile-list items-center font-bold text-2xl space-y-5"></ul>
+      </div>
+      `;
 
+    this.loadDesktopNavbarItems();
+    this.loadMobileNavbarItems();
+
+    this.addScrollListeners();
+  }
+
+  loadDesktopNavbarItems() {
+    let desktopListElement = this.querySelector(".desktop-list");
+    for (let item of this.items) {
+      const li = document.createElement("li");
+      li.className = "hover:text-secondary";
+      li.innerHTML = `<a href="#${item.id}">${item.name}</a>`;
+      desktopListElement.appendChild(li);
+    }
+  }
+
+  toggleMobileModal() {
+    let modalElement = this.querySelector(".hamburger-modal");
+    if (modalElement.classList.contains("hidden")) {
+      // Open: show animation
+      modalElement.classList.remove("hidden");
+      modalElement.classList.add("flex", "show-navbar");
+      modalElement.classList.remove("hide-navbar");
+    } else {
+      // Close: hide animation
+      modalElement.classList.remove("show-navbar");
+      modalElement.classList.add("hide-navbar");
+      setTimeout(() => {
+        modalElement.classList.remove("flex", "hide-navbar");
+        modalElement.classList.add("hidden");
+      }, 300); // Match animation duration
+    }
+  }
+
+  loadMobileHamburger() {
+    // Open button 
+    let openButton = document.createElement("button");
+    openButton.innerHTML = `<svg class="h-10 w-auto" viewBox="0 0 24 24">
+      <path class="fill-surface2" d="M3 8h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2m18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2m0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2"></path>
+    </svg>`;
+    openButton.onclick = () => this.toggleMobileModal();
+    this.querySelector(".hamburger-wrapper").appendChild(openButton);
+    let closeButton = document.createElement("button");
+
+    // Close button
+    closeButton.innerHTML = `<svg class="h-10 w-auto" viewBox="0 0 24 24">
+      <path class="fill-surface2" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"></path>
+    </svg>`;
+    closeButton.onclick = () => this.toggleMobileModal();
+    this.querySelector(".hamburger-close-button-wrapper").appendChild(
+      closeButton
+    );
+  }
+
+  loadMobileNavbarItems() {
+    this.loadMobileHamburger();
+    let mobileListElement = this.querySelector(".mobile-list");
+    for (let item of this.items) {
+      const li = document.createElement("li");
+      li.className = "hover:text-secondary";
+      li.innerHTML = `<a href="${item.id}">${item.name}</a>`;
+      mobileListElement.appendChild(li);
+    }
+  }
+
+  addScrollListeners() {
     let headerClasses =
-      "fixed z-50 top-0 px-5 md:px-[8rem] py-[2rem] w-full text-surface2";
+      "fixed z-50 px-5 top-0 lg:px-[8rem] py-[2rem] w-full text-surface2";
     this.id = "nav-bar";
     this.classList.add(...headerClasses.split(" "));
     window.addEventListener("scroll", () => {
@@ -51,7 +133,16 @@ class SpecialHeader extends HTMLElement {
 }
 
 class SpecialFooter extends HTMLElement {
-  connectedCallback() {}
+  connectedCallback() {
+    this.innerHTML = `
+    <div class="flex flex-row space-x-2 items-center mx-auto w-fit">
+    <h2 class="text-surface2 text-xl text-center">Made with</h2><svg class="h-10 w-auto" viewBox="0 0 24 24">
+	<path class="fill-secondary" d="m12 21.35l-1.45-1.32C5.4 15.36 2 12.27 2 8.5C2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53z"></path>
+</svg>
+    </div>
+    `;
+    this.className = " bg-surface3 p-[2rem] w-full flex flex-col";
+  }
 }
 
 class ProjectList extends HTMLElement {
@@ -103,7 +194,7 @@ class ProjectList extends HTMLElement {
                   alt="${project.title}"
                 />
                 <div class="flex flex-row justify-center items-center space-x-2">
-                <h2 class="text-2xl text-center lg:text-5xl font-bold my-4">
+                <h2 class="text-2xl text-center lg:text-5xl font-bold my-4" id="projects-list-title">
                   ${project.title} 
                 </h2>
                 ${project.github
@@ -328,7 +419,7 @@ class ProjectModal extends HTMLElement {
     this.closeButton = document.createElement("button");
     this.closeButton.className =
       "absolute top-2 right-2 text-gray-600 hover:text-gray-800";
-    this.closeButton.innerHTML = `<svg class="md:h-[5rem] md:w-[5rem]" viewBox="0 0 24 24">
+    this.closeButton.innerHTML = `<svg class="h-[3rem] w-auto md:h-[5rem] md:w-[5rem]" viewBox="0 0 24 24">
           <path
             fill="none"
             class="stroke-surface2"
@@ -424,9 +515,9 @@ class CertificationsList extends HTMLElement {
   constructor() {
     super();
     this.id = "certifications-list-wrapper";
-    this.className = "flex flex-col w-3/4 mx-auto"
+    this.className = "flex flex-col w-3/4 mx-auto";
     this.innerHTML = `
-        <h1 class="text-2xl lg:text-6xl font-bold text-surface2 mx-auto">
+        <h1 class="text-2xl lg:text-6xl font-bold text-surface2 mx-auto" id="certifications-title">
           Certifications
         </h1>
         <div class="certifications-list space-y-3 md:space-y-0 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-2 md:gap-5 mb-[3rem] mt-[3rem] w-full">
@@ -452,33 +543,39 @@ class CertificationsList extends HTMLElement {
     }
   }
   render() {
-    const certificationsListElement = this.querySelector(".certifications-list");
+    const certificationsListElement = this.querySelector(
+      ".certifications-list"
+    );
     for (let certification of this.certifications) {
       if (certification.hidden) continue;
-      certificationsListElement.appendChild(this.loadCertification(certification));
+      certificationsListElement.appendChild(
+        this.loadCertification(certification)
+      );
     }
   }
 
   loadCertification(certification) {
     const li = document.createElement("li");
     li.id = certification.id;
-    li.className =
-      "";
+    li.className = "";
     li.innerHTML = `
       <a target="_blank" href="${certification.url}" class="p-[1rem] flex flex-col rounded-xl space-y-2">
-        <h1 class="text-surface2 text-center font-bold text-2xl md:text-5xl">${certification.title}
+        <h1 class="text-surface2 text-center font-bold text-2xl md:text-5xl">${certification.title} (${certification.year})
         </h1>
-        <img class="rounded-xl object-contain max-h-[20rem]" src="/media/${certification.image}">
+         <h2 class="text-surface2 text-center font-normal text-xl md:text-2xl">${certification.description}
+        </h2>
+        
+        <img class="object-contain max-h-[20rem]" src="/media/${certification.image}">
         </img>
       </a>
              `;
     return li;
   }
-
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
   customElements.define("special-header", SpecialHeader);
+  customElements.define("special-footer", SpecialFooter);
   await customElements.define("projects-list", ProjectList);
   await customElements.define("skills-list", SkillsList);
   customElements.define("project-modal", ProjectModal);

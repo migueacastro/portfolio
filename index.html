@@ -147,41 +147,72 @@
         id="projects-section"
         class="min-h-[80vh] xl:px-[8rem] bg-secondary py-[4rem] p-[3rem]"
       >
-        <h1 class="text-4xl lg:text-8xl font-bold text-surface3">Projects</h1>
+        <h1
+          class="text-4xl lg:text-8xl font-bold text-surface3"
+          id="projects-title"
+        >
+          Projects
+        </h1>
         <projects-list path="/data/projects.json"></projects-list>
       </section>
       <section
         class="min-h-[80vh] xl:px-[8rem] bg-primary py-[4rem] p-[3rem]"
         id="skill-categories-list"
       >
-        <h1 class="text-4xl lg:text-8xl font-bold text-surface3">Skills</h1>
+        <h1
+          class="text-4xl lg:text-8xl font-bold text-surface3"
+          id="skills-title"
+        >
+          Skills
+        </h1>
         <div class="">
           <skills-list path="/data/skills.json"></skills-list>
         </div>
       </section>
     </div>
-   
-    <div class=" xl:px-[8rem] bg-surface3 py-[2rem] p-[3rem]">
-      <certifications-list path="/data/certifications.json"> </certifications-list>
-    </div>
-    
 
-     <div class=" xl:px-[8rem] bg-surface1 py-[4rem] p-[1rem] p-[3rem]">
+    <div class="xl:px-[8rem] bg-surface3 py-[2rem] p-[3rem]">
+      <certifications-list path="/data/certifications.json">
+      </certifications-list>
+    </div>
+
+    <div class="xl:px-[8rem] bg-surface1 py-[4rem] p-[1rem] p-[3rem]">
       <div class="flex flex-col w-full md:w-1/2 mx-auto">
-        <h1 class="text-4xl lg:text-8xl font-bold text-surface2">
+        <h1
+          class="text-4xl lg:text-8xl font-bold text-surface2"
+          id="about-title"
+        >
           More About Me
         </h1>
         <p class="text-xl text-surface2 text-justify font-light">
-          I built my foundation by studying Computer Science at <a class="font-bold text-decoration-line underline" href="https://www.iutepal.edu.ve/inicio">IUTEPAL</a> in
-          Valencia, Venezuela, leveling up my skills further by taking on Harvard's <a class="font-bold text-decoration-line underline" href="https://pll.harvard.edu/course/cs50-introduction-computer-science">CS50X</a>
-          and <a class="font-bold text-decoration-line underline" href="https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript">CS50W</a> courses. Gaining more knowledge over them, I started
-          building full-stack web applications, for local businesses. My English
+          I built my foundation by studying Computer Science at
+          <a
+            class="font-bold text-decoration-line underline"
+            href="https://www.iutepal.edu.ve/inicio"
+            >IUTEPAL</a
+          >
+          in Valencia, Venezuela, leveling up my skills further by taking on
+          Harvard's
+          <a
+            class="font-bold text-decoration-line underline"
+            href="https://pll.harvard.edu/course/cs50-introduction-computer-science"
+            >CS50X</a
+          >
+          and
+          <a
+            class="font-bold text-decoration-line underline"
+            href="https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript"
+            >CS50W</a
+          >
+          courses. Gaining more knowledge over them, I started building
+          full-stack web applications, for local businesses. My English
           proficiency has been key throughout this journey, enabling me to fully
           engage with global development communities, access resources, and
           collaborate effectively.
         </p>
       </div>
     </div>
+    <special-footer></special-footer>
   </body>
 </html>
 
@@ -193,5 +224,29 @@
   .hero-pattern {
     background-image: url("./media/topography.svg");
     background-repeat: repeat;
+  }
+  @keyframes hide-mobile-navbar {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-30rem);
+    }
+  }
+
+  @keyframes show-mobile-navbar {
+    0% {
+      transform: translateY(-30rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .show-navbar {
+    animation: show-mobile-navbar 300ms ease-in-out;
+  }
+  .hide-navbar {
+    animation: hide-mobile-navbar 300ms ease-in-out;
   }
 </style>
