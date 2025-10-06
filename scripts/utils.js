@@ -202,7 +202,7 @@ class ProjectList extends HTMLElement {
     li.innerHTML = `
               <div class="flex flex-col">
                 <img
-                  src="/media/${project.thumbnail}"
+                  src="./media/${project.thumbnail}"
                   class="rounded-xl max-h-[15rem] ${project.mobile
                     ? "object-contain"
                     : "object-cover"}"
@@ -288,7 +288,7 @@ class SkillsList extends HTMLElement {
           </div>
         </div>
         <img
-          src="/media/${skill.icon}"
+          src="./media/${skill.icon}"
           alt="${skill.name}"
           class="object-contain min-h-[2rem] max-w-[2rem] lg:max-w-[4rem] md:max-w-[2rem] lg:h-[8rem] object-center"
         />
@@ -353,7 +353,7 @@ class ProjectModal extends HTMLElement {
         "beforeend",
         `<img
           id="project-modal-image-${i}"
-          src="/media/${image}"
+          src="./media/${image}"
           class="rounded-xl ${this.project.mobile
             ? "md:h-[30rem]  object-contain"
             : "w-full lg:max-h-[30rem]"} ${i === this.currentImageIndex
@@ -377,7 +377,7 @@ class ProjectModal extends HTMLElement {
       skillElement.className =
         "p-2 md:p-3 flex-row flex space-x-2 bg-primary m-3 rounded-xl items-center";
       skillElement.innerHTML = `
-      <h4 class="text-xs md:text-sm text-surface3">${skill.name}</h4><img src="/media/${skill.icon}" class="w-[1rem] h-[1rem] md:w-[2rem] md:h-[2rem]"></img>
+      <h4 class="text-xs md:text-sm text-surface3">${skill.name}</h4><img src="./media/${skill.icon}" class="w-[1rem] h-[1rem] md:w-[2rem] md:h-[2rem]"></img>
       `;
       projectModalSkillsElement.appendChild(skillElement);
     }
@@ -580,7 +580,7 @@ class CertificationsList extends HTMLElement {
          <h2 class="text-surface2 text-center font-normal text-xl md:text-2xl">${certification.description}
         </h2>
         
-        <img class="object-contain max-h-[20rem]" src="/media/${certification.image}">
+        <img class="object-contain max-h-[20rem]" src="./media/${certification.image}">
         </img>
       </a>
              `;
