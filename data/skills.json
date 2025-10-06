@@ -51,16 +51,6 @@
         "name": "SpringBoot",
         "level": 2,
         "icon": "springbootlogo.svg"
-      },
-      {
-        "name": "Flask",
-        "level": 2,
-        "icon": "flasklogo.svg"
-      },
-      {
-        "name": "Node JS",
-        "level": 2,
-        "icon": "nodejslogo.svg"
       }
     ]
   },
@@ -164,29 +154,14 @@
         "icon": "dartlogo.svg"
       },
       {
-        "name": "Go",
-        "level": 2,
-        "icon": "gologo.svg"
-      },
-      {
         "name": "C#",
         "level": 3,
         "icon": "csharplogo.svg"
       },
       {
         "name": "C",
-        "level": 2,
-        "icon": "clogo.svg"
-      },
-      {
-        "name": "Rust",
-        "level": 1,
-        "icon": "rustlogo.svg"
-      },
-      {
-        "name": "Bash",
         "level": 3,
-        "icon": "bashlogo.svg"
+        "icon": "clogo.svg"
       }
     ]
   }

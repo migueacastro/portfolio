@@ -19,7 +19,7 @@
             <img
               src="./media/heropicture.png"
               alt="me"
-              class="object-contain object-left mt-[10.5rem] md:mt-[6rem] ml-[10rem] md:ml-[0rem] xl:mt-[2rem] h-[20rem] md:h-[30rem] xl:h-[45rem]"
+              class="object-contain object-left mt-[10.5rem] lg:mt-[6rem] ml-[10rem] md:ml-[0rem] xl:mt-[2rem] h-[20rem] md:h-[30rem] xl:h-[45rem]"
             />
           </div>
         </div>
@@ -72,9 +72,9 @@
                     />
                   </svg>
                 </a>
-                <span class="hidden md:block"><contact-button></contact-button></span>
+                <span class="hidden lg:block"><contact-button></contact-button></span>
               </div>
-              <span class="block mt-5 md:hidden"><contact-button></contact-button></span>
+              <span class="block mt-5 lg:hidden"><contact-button></contact-button></span>
             </div>
           </div>
           <div
@@ -113,7 +113,7 @@
               <p
                 class="text-xl xl:text-2xl w-[50%] xl:w-[60%] text-surface2 xl:tracking-[0.2rem]"
               >
-                From high school grad to building web apps before 18.
+                From high school grad to building web apps before 18 y/o.
               </p>
             </div>
 
@@ -156,7 +156,7 @@
         >
           Projects
         </h1>
-        <projects-list path="/data/projects.json"></projects-list>
+        <projects-list path="./data/projects.json"></projects-list>
       </section>
       <section
         class="min-h-[80vh] xl:px-[8rem] bg-primary py-[4rem] p-[3rem]"
@@ -169,13 +169,13 @@
           Skills
         </h1>
         <div class="">
-          <skills-list path="/data/skills.json"></skills-list>
+          <skills-list path="./data/skills.json"></skills-list>
         </div>
       </section>
     </div>
 
     <div class="xl:px-[8rem] bg-surface3 py-[2rem] p-[3rem]">
-      <certifications-list path="/data/certifications.json">
+      <certifications-list path="./data/certifications.json">
       </certifications-list>
     </div>
 
@@ -217,6 +217,7 @@
     </div>
     <special-footer></special-footer>
   </body>
+  <script src="https://web3forms.com/client/script.js" async defer></script>
 </html>
 
 <style>

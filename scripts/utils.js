@@ -33,14 +33,14 @@ class SpecialHeader extends HTMLElement {
       { name: "Home", id: "" },
       { name: "Projects", id: "#projects-title" },
       { name: "Skills", id: "#skills-title" },
-      { name: "Certifications", id: "#certifications" },
+      { name: "Certifications", id: "#certifications-title" },
       { name: "About", id: "#about-title" }
     ];
   }
 
   connectedCallback() {
-    this.innerHTML = `<div class="flex flex-row justify-between items-center"><div class="contact-button-wrapper hidden"><contact-button></contact-button></div> <ul 
-        class="md:flex hidden flex-row space-x-5 md:space-x-[1rem] lg:space-x-[3rem] justify-center md:justify-end w-full text-xl md:text-2xl lg:text-4xl font-bold desktop-list"
+    this.innerHTML = `<div class="flex flex-row justify-between items-center"><div class="contact-button-wrapper hidden lg:mx-5"><contact-button></contact-button></div> <ul 
+        class="md:flex hidden flex-row space-x-5 md:space-x-[1rem] lg:space-x-[3rem] justify-center md:justify-end w-full text-xl md:text-2xl lg:text-2xl xl:text-4xl font-bold desktop-list"
       >
       </ul>
       <div class="w-full hamburger-wrapper flex justify-end md:hidden"></div>
@@ -593,16 +593,46 @@ class ContactModal extends HTMLElement {
     super();
     this.id = "contact-modal";
     this.className =
-      "fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-0";
+      "fixed overflow-y-auto top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-[2rem]";
 
     this.contentElement = document.createElement("div");
     this.contentElement.className =
-      "bg-surface3 min-h-[30rem] rounded-xl p-1 md:p-6 lg:w-[80%] mx-auto relative h-fit overflow-y-auto";
+      "top-[5rem] bg-surface3 min-h-[30rem] rounded-xl p-5 md:p-[3rem] lg:w-[80%] mx-auto relative h-fit overflow-y-auto";
     this.contentElement.innerHTML = `
-      <h1 class="text-2xl lg:text-6xl font-bold text-surface2 text-center">
+      <h1 class="text-4xl mb-6 lg:text-6xl font-bold text-surface2 text-center">
           Contact Me
         </h1>
-      <contact-form></>
+      <div class="contact-form-wrapper">
+      <contact-form/>
+      </div>
+      <div class="social-links">
+      <h2 class="my-4 mt-8 text-surface2 mx-auto w-fit text-3xl font-bold">Or see</h2>
+      <div class="flex flex-row justify-center">
+      <a href="https://github.com/migueacastro" target="_blank">
+        <svg
+          class="h-[3rem] md:h-[5rem] w-fit hover:scale-110 hover:fill-primary fill-secondary"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
+          />
+        </svg>
+      </a>
+      <a
+        href="https://www.linkedin.com/in/miguel-castro-a13259282/"
+        target="_blank"
+      >
+        <svg
+          class="h-[3rem] md:h-[5rem] w-fit hover:scale-110 hover:fill-primary fill-secondary"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"
+          />
+        </svg>
+      </a>
+      </div>
+      </div>
     `;
     this.appendChild(this.contentElement);
 
@@ -639,13 +669,295 @@ class ContactModal extends HTMLElement {
   }
 }
 
+class ContactForm extends HTMLElement {
+  constructor() {
+    super();
+    this.classList.add(
+      "flex",
+      "flex-row",
+      "lg:w-3/4",
+      "mx-auto",
+      "flex-wrap",
+      "transition-all",
+      "duration-200"
+    );
+
+    const fields = [
+      { label: "Name", name: "name", type: "text", width: "w-full md:w-1/2" },
+      {
+        label: "Email",
+        name: "email",
+        type: "email",
+        width: "w-full md:w-1/2"
+      },
+      { label: "Subject", name: "subject", type: "text", width: "w-full" },
+      { label: "Message", name: "message", type: "textarea", width: "w-full" }
+    ];
+
+    // Create form container
+    this.form = document.createElement("form");
+    this.form.className =
+      "w-full flex flex-row flex-wrap transition-all duration-500";
+    this.form.method = "POST";
+    this.form.innerHTML = `<input type="hidden" name="access_key" value="4f234f3e-f608-4c4a-81ae-27b1bd89188a"><input type="checkbox" name="botcheck" id="" style="display: none;">`;
+
+    this.appendChild(this.form);
+
+    this.loadingElement = document.createElement("div");
+    this.loadingElement.className =
+      "relative -top-[25rem] -mb-[25rem] w-full flex flex-row justify-center hidden";
+    this.loadingElement.innerHTML = `<div role="status">
+    <svg aria-hidden="true" class="h-[10rem] w-auto text-gray-200 animate-spin dark:text-secondary fill-primary" viewBox="0 0 100 101" fill="none"">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+    </div>`;
+
+    this.formSuccessElement = document.createElement("div");
+    this.formSuccessElement.className =
+      "flex flex-col w-full space-y-5 justify-center items-center hidden";
+    this.formSuccessElement.innerHTML = `
+      <div>
+       <svg class="h-[10rem] w-auto" viewBox="0 0 16 16">
+	<path class="fill-secondary" d="M11.4 6.85a.5.5 0 0 0-.707-.707l-3.65 3.65l-1.65-1.65a.5.5 0 0 0-.707.707l2 2a.5.5 0 0 0 .707 0l4-4z"></path>
+	<path class="fill-secondary" fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8s8-3.58 8-8s-3.58-8-8-8M1 8c0-3.87 3.13-7 7-7s7 3.13 7 7s-3.13 7-7 7s-7-3.13-7-7" clipRule="evenodd"></path>
+</svg>
+      </div>
+        <h1 class="text-3xl text-secondary font-bold">Form submitted successfully!</h1>
+      <h2 class="text-xl text-center text-surface2 font-light">Thank you! The form has been submitted successfully. I will reply to you soon!</h2>
+      <button type="button" class="contact-button reset-form text-primary text-2xl">
+      Go back</button>
+    `;
+    
+    this.appendChild(this.formSuccessElement);
+    this.addFieldElements(fields);
+    this.addSubmitButton();
+    this.appendChild(this.loadingElement);
+    this.disableSubmitButton();
+  }
+
+  addFieldElements(list) {
+    for (let field of list) {
+      let element = document.createElement("div");
+      element.className = `flex flex-col space-y-2 my-2 px-2 ${field.width}`;
+      element.innerHTML = `<label class="text-2xl text-surface2 for="${field.name}">${field.label}</label>`;
+
+      if (field.type === "textarea") {
+        element.innerHTML += `<textarea name="${field.name}" class="field bg-surface1 focus:ring ring-surface2 rounded-md text-surface2 text-2xl p-2"></textarea>`;
+      } else {
+        element.innerHTML += `<input type="${field.type}" name="${field.name}" class="field bg-surface1 focus:ring ring-surface2 rounded-md text-surface2 text-2xl p-2"></input>`;
+      }
+      element.innerHTML += `<div
+        class="empty-feedback text-red-400 text-sm mt-1 hidden"
+      >
+        Please provide your ${field.name}.
+      </div>
+      <div
+        class="invalid-feedback text-red-400 text-sm mt-1 hidden"
+      >
+        Invalid ${field.name}.
+      </div>`;
+
+      element.querySelector(".field").addEventListener("input", event => {
+        console.log("input event fired", field.name, event.target.value);
+        event.target.classList.add("touched");
+        this.validateFields();
+      });
+
+      this.form.appendChild(element);
+    }
+
+    // Add hCaptcha using DOM methods instead of innerHTML
+    const captchaContainer = document.createElement("div");
+    captchaContainer.className = "flex flex-col justify-start w-full mx-2 my-4";
+    captchaContainer.innerHTML = ` <div class="h-captcha" 
+      data-captcha="true" 
+      ></div></div>`;
+    const captchaMessage = document.createElement("div");
+    captchaMessage.innerHTML = ` <div
+      class="captcha-feedback text-red-400 text-sm mt-1 hidden"
+    >
+      Invalid Captcha.
+    </div>`;
+    const formErrorElement = document.createElement("div");
+    formErrorElement.className =
+      "server-error text-red-400 text-sm mt-1 w-full hidden";
+    formErrorElement.innerHTML = "Something went wrong.";
+
+    captchaContainer.appendChild(captchaMessage);
+    this.form.appendChild(captchaContainer);
+    this.form.appendChild(formErrorElement);
+
+    //this.innerHTML += `<div class="flex flex-row justify-start w-full mx-2 my-4">></div>`;
+  }
+
+  addSubmitButton() {
+    let button = document.createElement("button");
+    button.innerHTML = "Submit";
+    button.className =
+      "mt-4 mx-auto transition-all duration-200 w-fit hover:scale-110 hover:bg-secondary p-[1rem] px-[4rem] flex flex-col justify-center bg-gradient-to-r from-primary to-secondary font-bold text-nowrap text-md md:text-2xl text-surface3 hover:text-surface3 rounded-2xl";
+    button.addEventListener("click", e => {
+      e.preventDefault();
+      // this.emptyFields();
+      this.submitForm();
+    });
+    button.type = "button";
+    this.form.appendChild(button);
+    this.validateFields();
+  }
+
+  emptyFields() {
+    this.querySelectorAll("input, textarea").forEach(element => {
+      element.value = "";
+      element.classList.remove("touched");
+    });
+    this.validateFields();
+  }
+
+  enableSubmitButton() {
+    let button = this.querySelector("button");
+    if (!button) return;
+
+    button.disabled = false;
+    button.classList.remove(
+      "ring-gradient-to-r",
+      "from-primary",
+      "to-secondary",
+      "text-surface2",
+      "bg-transparent",
+      "ring-secondary",
+      "ring"
+    );
+    button.classList.add(
+      "bg-gradient-to-r",
+      "from-primary",
+      "to-secondary",
+      "text-surface3",
+      "hover:text-surface3",
+      "hover:scale-110",
+      "hover:bg-secondary"
+    );
+  }
+
+  disableSubmitButton() {
+    let button = this.querySelector("button");
+    if (!button) return;
+
+    button.disabled = true;
+    button.classList.remove(
+      "bg-gradient-to-r",
+      "from-primary",
+      "to-secondary",
+      "text-surface3",
+      "hover:scale-110",
+      "hover:bg-secondary",
+      "hover:text-surface3"
+    );
+    button.classList.add(
+      "ring-gradient-to-r",
+      "from-primary",
+      "to-secondary",
+      "text-surface2",
+      "bg-transparent",
+      "ring-secondary",
+      "ring"
+    );
+  }
+
+  validateFields() {
+    let valid = true;
+    this.querySelectorAll(".field").forEach(element => {
+      let parent = element.parentElement;
+      let invalidFeedback = parent.querySelector(".invalid-feedback");
+      let emptyFeedback = parent.querySelector(".empty-feedback");
+
+      invalidFeedback.classList.add("hidden");
+      emptyFeedback.classList.add("hidden");
+      if (
+        (element.type == "email" && !this.isValidEmail(element.value)) ||
+        element.value.toString().length < 3
+      ) {
+        if (element.classList.contains("touched")) {
+          invalidFeedback.classList.remove("hidden");
+        }
+        valid = false;
+      }
+    });
+
+    if (valid) {
+      this.enableSubmitButton();
+    } else {
+      this.disableSubmitButton();
+    }
+  }
+  isValidEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
+  submitForm() {
+    const hCaptcha = this.form.querySelector(
+      "textarea[name=h-captcha-response]"
+    ).value;
+    if (!hCaptcha) {
+      this.querySelector(".captcha-feedback").classList.remove("hidden");
+      return;
+    }
+    this.querySelector(".captcha-feedback").classList.add("hidden");
+    const formData = new FormData(this.form);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+    this.form.classList.add("opacity-0");
+    this.loadingElement.classList.remove("hidden");
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: json
+    })
+      .then(async response => {
+        let json = await response.json();
+        if (response.status == 200) {
+          this.loadingElement.classList.add("hidden");
+          this.formSuccessElement.classList.remove("hidden");
+          this.form.classList.add("hidden");
+          this.emptyFields();
+        } else {
+          console.log(response);
+          this.formErrorElement.classList.remove("hidden");
+          this.form.classList.remove("opacity-0");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.formErrorElement.classList.remove("hidden");
+        this.form.classList.remove("opacity-0");
+      });
+  }
+}
+
+const customElementsList = [
+  ["special-header", SpecialHeader],
+  ["special-footer", SpecialFooter],
+  ["projects-list", ProjectList],
+  ["skills-list", SkillsList],
+  ["project-modal", ProjectModal],
+  ["certifications-list", CertificationsList],
+  ["contact-button", ContactButton],
+  ["contact-modal", ContactModal],
+  ["contact-form", ContactForm]
+];
+
+function addCustomElements(list) {
+  for (let element of list) {
+    customElements.define(...element);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
-  customElements.define("special-header", SpecialHeader);
-  customElements.define("special-footer", SpecialFooter);
-  customElements.define("projects-list", ProjectList);
-  customElements.define("skills-list", SkillsList);
-  customElements.define("project-modal", ProjectModal);
-  customElements.define("certifications-list", CertificationsList);
-  customElements.define("contact-button", ContactButton);
-  customElements.define("contact-modal", ContactModal);
+  addCustomElements(customElementsList);
 });
