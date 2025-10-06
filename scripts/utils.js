@@ -349,21 +349,20 @@ class ProjectModal extends HTMLElement {
       this.currentImageIndex = 0;
     }
     for (let image of this.project.images) {
-      imageWrapper.insertAdjacentHTML(
-        "beforeend",
-        `<img
-          id="project-modal-image-${i}"
-          
-          src="./media/${image}"
-          class="rounded-xl ${this.project.mobile
-            ? "md:h-[30rem]  object-contain"
-            : "w-full lg:max-h-[30rem]"} ${i === this.currentImageIndex
-          ? ""
-          : "hidden"}"
-          alt="${this.project.title}"
-        />`
-      );
-      imageWrapper.querySelector("img").addEventListener("click", () => this.toggleFullScreen());
+      const img = document.createElement("img");
+      img.id = `project-modal-image-${i}`;
+      img.src = `./media/${image}`;
+      img.className = `rounded-xl cursor-pointer ${this.project.mobile
+        ? "md:h-[30rem] object-contain"
+        : "w-full lg:max-h-[30rem]"} ${i === this.currentImageIndex
+        ? ""
+        : "hidden"}`;
+      img.alt = this.project.title;
+
+      // Add click event listener for fullscreen
+      img.addEventListener("click", () => this.toggleFullScreen(image));
+
+      imageWrapper.appendChild(img);
       i++;
     }
   }
@@ -422,14 +421,76 @@ class ProjectModal extends HTMLElement {
     this.classList.toggle("flex");
   }
 
-  toggleFullScreen() {
-    let element =  this.querySelector(".fullscreen-image");
-    if (element.classList.contains("hidden")) {
-      element.classList.remove("hidden");
-    } else {
-      element.classList.add("hidden");
+  toggleFullScreen(imageSrc) {
+    const fullscreenElement = this.querySelector(
+      "#project-modal-image-fullscreen"
+    );
+    const parent = fullscreenElement.parentElement.parentElement;
+    if (!fullscreenElement) {
+      console.error("Fullscreen element not found");
+      return;
     }
-   
+
+    // Set the image source
+    fullscreenElement.src = `./media/${imageSrc}`;
+
+    if (parent.classList.contains("hidden")) {
+      // Show fullscreen
+      parent.classList.remove("hidden");
+      parent.classList.add("flex");
+
+      // Add click to exit fullscreen
+      fullscreenElement.addEventListener("click", () => this.exitFullScreen());
+    } else {
+      this.exitFullScreen();
+    }
+  }
+
+  exitFullScreen() {
+    const fullscreenElement = this.querySelector(
+      "#project-modal-image-fullscreen"
+    );
+    const parent = fullscreenElement.parentElement.parentElement;
+    if (!parent.classList.contains("hidden")) {
+      parent.classList.add("hidden");
+      parent.classList.remove("flex");
+
+      // Exit browser fullscreen if active
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    }
+  }
+  nextFullscreenImage() {
+    if (this.currentImageIndex === undefined) return;
+
+    if (this.currentImageIndex === this.project.images.length - 1) {
+      this.currentImageIndex = 0;
+    } else {
+      this.currentImageIndex++;
+    }
+
+    const nextImage = this.project.images[this.currentImageIndex];
+    const fullscreenElement = this.querySelector(
+      "#project-modal-image-fullscreen"
+    );
+    fullscreenElement.src = `./media/${nextImage}`;
+  }
+
+  previousFullscreenImage() {
+    if (this.currentImageIndex === undefined) return;
+
+    if (this.currentImageIndex === 0) {
+      this.currentImageIndex = this.project.images.length - 1;
+    } else {
+      this.currentImageIndex--;
+    }
+
+    const prevImage = this.project.images[this.currentImageIndex];
+    const fullscreenElement = this.querySelector(
+      "#project-modal-image-fullscreen"
+    );
+    fullscreenElement.src = `./media/${prevImage}`;
   }
 
   constructor() {
@@ -488,20 +549,14 @@ class ProjectModal extends HTMLElement {
         </div>
         <div class="flex flex-row w-full justify-between media-wrapper items-center">
           <button class="w-fit" id="project-modal-previous-button">
-            <svg viewBox="0 0 24 24" class="w-[2rem] h-[2rem] md:h-[5rem] md:w-[5rem]">
-              <path
-                class="fill-secondary"
-                d="M10 22L0 12L10 2l1.775 1.775L3.55 12l8.225 8.225z"
-              ></path>
+            <svg class="w-8 h-8 md:w-12 md:h-12" viewBox="0 0 24 24">
+              <path class="stroke-surface2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m14 7l-5 5m0 0l5 5"></path>
             </svg>
           </button>
           <div class="flex flex-row mx-auto" id="project-modal-image-wrapper"></div>
           <button id="project-modal-next-button" class="w-fit">
-            <svg class="md:h-[5rem] md:w-[5rem] w-[2rem] h-[2rem] " viewBox="0 0 24 24">
-              <path
-                class="fill-secondary"
-                d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10z"
-              ></path>
+             <svg class="w-8 h-8 md:w-12 md:h-12" viewBox="0 0 24 24">
+              <path class="stroke-surface2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m10 17l5-5m0 0l-5-5"></path>
             </svg>
           </button>
         </div>`;
@@ -515,24 +570,89 @@ class ProjectModal extends HTMLElement {
     );
     this.nextButton.onclick = () => this.nextImage();
 
-    this.fullScreenElement = document.createElement("div");
-    this.fullScreenElement.className =
-      "fullscreen-image fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-0";
-    this.fullScreenElement.innerHTML = `
-      <img
-          id="project-modal-image-fullscreen"
-          onclick="this.requestFullscreen()"
-          "
-        />
-    `;
-  
     this.previousButton = this.contentWrapperElement.querySelector(
       "#project-modal-previous-button"
     );
-    
+
     this.previousButton.onclick = () => this.previousImage();
 
+    this.fullScreenElement = document.createElement("div");
+    this.fullScreenElement.className =
+      "fullscreen-image fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 hidden z-[60] justify-center items-center";
+    this.fullScreenElement.innerHTML = `
+      <button class="absolute flex flex-row justify-center items-center left-4 z-10 p-2 bg-surface3/50 rounded-full hover:bg-surface3 transition-all duration-200" id="fullscreen-prev-button">
+      <svg class="w-8 h-8 md:w-12 md:h-12" viewBox="0 0 24 24">
+        <path class="stroke-surface2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m14 7l-5 5m0 0l5 5"></path>
+      </svg>
+      </button>
+      
+      <div class="relative max-w-full max-h-full flex justify-center items-center">
+        <img
+          id="project-modal-image-fullscreen"
+          class="max-w-full max-h-full object-contain cursor-pointer"
+          alt="Fullscreen view"
+        />
+      </div>
+      
+      <button class="flex flex-row justify-center items-center absolute right-4 z-10 p-2 bg-surface3/50 rounded-full hover:bg-surface3 transition-all duration-200" id="fullscreen-next-button">
+        <svg class="w-8 h-8 md:w-12 md:h-12" viewBox="0 0 24 24">
+        <path class="stroke-surface2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m10 17l5-5m0 0l-5-5"></path>
+      </svg>
+      </button>
+      
+      <button class="flex flex-row justify-center items-center absolute top-4 right-4 z-10 p-2 bg-surface3/50 rounded-full hover:bg-surface3 transition-all duration-200" id="fullscreen-close-button">
+        <svg class="w-8 h-8 md:w-12 md:h-12" viewBox="0 0 24 24">
+          <path class="fill-surface2" d="M18.36 19.78L12 13.41l-6.36 6.37l-1.42-1.42L10.59 12L4.22 5.64l1.42-1.42L12 10.59l6.36-6.36l1.41 1.41L13.41 12l6.36 6.36z"></path>
+        </svg>
+      </button>
+    `;
+
     this.contentElement.appendChild(this.contentWrapperElement);
+    this.fullScreenElement.addEventListener("click", e => {
+      if (e.target === this.fullScreenElement) {
+        this.exitFullScreen();
+      }
+    });
+
+    // Fullscreen navigation buttons
+    const fullscreenPrevButton = this.fullScreenElement.querySelector(
+      "#fullscreen-prev-button"
+    );
+    const fullscreenNextButton = this.fullScreenElement.querySelector(
+      "#fullscreen-next-button"
+    );
+    const fullscreenCloseButton = this.fullScreenElement.querySelector(
+      "#fullscreen-close-button"
+    );
+
+    fullscreenPrevButton.addEventListener("click", e => {
+      e.stopPropagation();
+      this.previousFullscreenImage();
+    });
+
+    fullscreenNextButton.addEventListener("click", e => {
+      e.stopPropagation();
+      this.nextFullscreenImage();
+    });
+
+    fullscreenCloseButton.addEventListener("click", e => {
+      e.stopPropagation();
+      this.exitFullScreen();
+    });
+
+    // Add keyboard navigation
+    document.addEventListener("keydown", e => {
+      if (!this.fullScreenElement.classList.contains("hidden")) {
+        if (e.key === "ArrowLeft") {
+          this.previousFullscreenImage();
+        } else if (e.key === "ArrowRight") {
+          this.nextFullscreenImage();
+        } else if (e.key === "Escape") {
+          this.exitFullScreen();
+        }
+      }
+    });
+
     this.appendChild(this.fullScreenElement);
     this.render();
   }
@@ -753,7 +873,7 @@ class ContactForm extends HTMLElement {
       <button type="button" class="contact-button reset-form text-primary text-2xl">
       Go back</button>
     `;
-    
+
     this.appendChild(this.formSuccessElement);
     this.addFieldElements(fields);
     this.addSubmitButton();
@@ -765,12 +885,12 @@ class ContactForm extends HTMLElement {
     for (let field of list) {
       let element = document.createElement("div");
       element.className = `flex flex-col space-y-2 my-2 px-2 ${field.width}`;
-      element.innerHTML = `<label class="text-2xl text-surface2 for="${field.name}">${field.label}</label>`;
+      element.innerHTML = `<label class="text-md lg:text-2xl text-surface2 for="${field.name}">${field.label}</label>`;
 
       if (field.type === "textarea") {
-        element.innerHTML += `<textarea name="${field.name}" class="field bg-surface1 focus:ring ring-surface2 rounded-md text-surface2 text-2xl p-2"></textarea>`;
+        element.innerHTML += `<textarea name="${field.name}" class="field bg-surface1 focus:ring ring-surface2 rounded-md text-surface2 text-md lg:text-2xl p-1 lg:p-2"></textarea>`;
       } else {
-        element.innerHTML += `<input type="${field.type}" name="${field.name}" class="field bg-surface1 focus:ring ring-surface2 rounded-md text-surface2 text-2xl p-2"></input>`;
+        element.innerHTML += `<input type="${field.type}" name="${field.name}" class="field bg-surface1 focus:ring ring-surface2 rounded-md text-surface2 text-md lg:text-2xl  p-1 lg:p-2"></input>`;
       }
       element.innerHTML += `<div
         class="empty-feedback text-red-400 text-sm mt-1 hidden"
