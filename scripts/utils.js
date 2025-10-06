@@ -934,7 +934,7 @@ class ContactForm extends HTMLElement {
     }
 
     // Add hCaptcha using DOM methods instead of innerHTML
-    const captchaContainer = document.createElement("div");
+    /*const captchaContainer = document.createElement("div");
     captchaContainer.className = "flex flex-col justify-start w-full mx-2 my-4";
     captchaContainer.innerHTML = ` <div class="h-captcha" 
       data-captcha="true" 
@@ -944,14 +944,14 @@ class ContactForm extends HTMLElement {
       class="captcha-feedback text-red-400 text-sm mt-1 hidden"
     >
       Invalid Captcha.
-    </div>`;
+    </div>`;*/
     const formErrorElement = document.createElement("div");
     formErrorElement.className =
       "server-error text-red-400 text-sm mt-1 w-full hidden";
     formErrorElement.innerHTML = "Something went wrong.";
 
-    captchaContainer.appendChild(captchaMessage);
-    this.form.appendChild(captchaContainer);
+    /*captchaContainer.appendChild(captchaMessage);
+    this.form.appendChild(captchaContainer);*/
     this.form.appendChild(formErrorElement);
 
     //this.innerHTML += `<div class="flex flex-row justify-start w-full mx-2 my-4">></div>`;
@@ -1062,13 +1062,13 @@ class ContactForm extends HTMLElement {
   }
 
   submitForm() {
-    const hCaptcha = this.form.querySelector(
+    /*const hCaptcha = this.form.querySelector(
       "textarea[name=h-captcha-response]"
     ).value;
     if (!hCaptcha) {
       this.querySelector(".captcha-feedback").classList.remove("hidden");
       return;
-    }
+    }*/
     this.querySelector(".captcha-feedback").classList.add("hidden");
     const formData = new FormData(this.form);
     const object = Object.fromEntries(formData);
