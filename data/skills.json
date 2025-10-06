@@ -129,6 +129,11 @@
     "name": "Languages",
     "skills": [
       {
+        "name": "English",
+        "level": "C1",
+        "icon": "usflag.png"
+      },
+      {
         "name": "Python",
         "level": 4,
         "icon": "pythonlogo.svg"

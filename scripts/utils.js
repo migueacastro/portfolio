@@ -295,9 +295,12 @@ class SkillsList extends HTMLElement {
       </div>`;
 
     let skillLevelElement = skillElement.querySelector(".skill-level");
+    if (isNaN(skill.level)) {
+      skillLevelElement.innerHTML = `<div class="font-bold text-3xl text-surface2"> ${skill.level}</div>`;
+    } else {
     for (let i = 0; i < 5; i++) {
       skillLevelElement.appendChild(this.loadSkillLevel(i, skill.level));
-    }
+    }}
     return skillElement;
   }
 
@@ -933,28 +936,16 @@ class ContactForm extends HTMLElement {
       this.form.appendChild(element);
     }
 
-    // Add hCaptcha using DOM methods instead of innerHTML
-    /*const captchaContainer = document.createElement("div");
-    captchaContainer.className = "flex flex-col justify-start w-full mx-2 my-4";
-    captchaContainer.innerHTML = ` <div class="h-captcha" 
-      data-captcha="true" 
-      ></div></div>`;
-    const captchaMessage = document.createElement("div");
-    captchaMessage.innerHTML = ` <div
-      class="captcha-feedback text-red-400 text-sm mt-1 hidden"
-    >
-      Invalid Captcha.
-    </div>`;*/
+   
     const formErrorElement = document.createElement("div");
     formErrorElement.className =
       "server-error text-red-400 text-sm mt-1 w-full hidden";
     formErrorElement.innerHTML = "Something went wrong.";
 
-    /*captchaContainer.appendChild(captchaMessage);
-    this.form.appendChild(captchaContainer);*/
+    
     this.form.appendChild(formErrorElement);
 
-    //this.innerHTML += `<div class="flex flex-row justify-start w-full mx-2 my-4">></div>`;
+   
   }
 
   addSubmitButton() {
@@ -964,7 +955,6 @@ class ContactForm extends HTMLElement {
       "mt-4 mx-auto transition-all duration-200 w-fit hover:scale-110 hover:bg-secondary p-[1rem] px-[4rem] flex flex-col justify-center bg-gradient-to-r from-primary to-secondary font-bold text-nowrap text-md md:text-2xl text-surface3 hover:text-surface3 rounded-2xl";
     button.addEventListener("click", e => {
       e.preventDefault();
-      // this.emptyFields();
       this.submitForm();
     });
     button.type = "button";
@@ -1062,13 +1052,7 @@ class ContactForm extends HTMLElement {
   }
 
   submitForm() {
-    /*const hCaptcha = this.form.querySelector(
-      "textarea[name=h-captcha-response]"
-    ).value;
-    if (!hCaptcha) {
-      this.querySelector(".captcha-feedback").classList.remove("hidden");
-      return;
-    }*/
+   
     this.querySelector(".captcha-feedback").classList.add("hidden");
     const formData = new FormData(this.form);
     const object = Object.fromEntries(formData);
