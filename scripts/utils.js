@@ -419,6 +419,18 @@ class ProjectModal extends HTMLElement {
     document.querySelector("#nav-bar").classList.toggle("hidden");
     this.classList.toggle("hidden");
     this.classList.toggle("flex");
+    this.toggleBodyScroll();
+  }
+
+  toggleBodyScroll() {
+    const body = document.body;
+    if (this.classList.contains("hidden")) {
+      // Modal is closing - enable scroll
+      body.classList.remove("overflow-y-hidden");
+    } else {
+      // Modal is opening - disable scroll
+      body.classList.add("overflow-y-hidden");
+    }
   }
 
   toggleFullScreen(imageSrc) {
@@ -497,11 +509,11 @@ class ProjectModal extends HTMLElement {
     super();
     this.id = "project-modal";
     this.className =
-      "fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-0";
+      "py-[3rem] md:px-[1.5rem] md:py-[4rem] lg:py-[1rem] xl:py-[8rem] xl:px-0 fixed overflow-y-scroll fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-0";
 
     this.contentElement = document.createElement("div");
     this.contentElement.className =
-      "bg-surface3 rounded-xl p-1 md:p-6 lg:w-[80%] mx-auto relative h-fit overflow-y-auto";
+      "md:mt-[20rem] xl:mt-0 top-[5rem] bg-surface3 rounded-xl p-1 md:p-6 lg:w-[80%] mx-auto relative h-fit overflow-y-auto";
     this.appendChild(this.contentElement);
 
     this.closeButton = document.createElement("button");
@@ -737,11 +749,11 @@ class ContactModal extends HTMLElement {
     super();
     this.id = "contact-modal";
     this.className =
-      "fixed overflow-y-scroll top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-[2rem]";
+      "py-[3rem] md:px-[1.5rem] md:py-[4rem] lg:py-[1rem] xl:py-[8rem] xl:px-0 fixed overflow-y-scroll top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-[2rem]";
 
     this.contentElement = document.createElement("div");
     this.contentElement.className =
-      "top-[5rem] bg-surface3 min-h-[30rem] rounded-xl p-5 md:p-[3rem] lg:w-[80%] mx-auto relative h-fit overflow-y-auto mb-[3rem]";
+      "md:mt-[20rem] xl:mt-0 top-[5rem] bg-surface3 min-h-[30rem] rounded-xl p-5 md:p-[3rem] lg:w-[80%] mx-auto relative h-fit overflow-y-auto mb-[3rem]";
     this.contentElement.innerHTML = `
       <h1 class="text-4xl mb-6 lg:text-6xl font-bold text-surface2 text-center">
           Contact Me
@@ -810,6 +822,15 @@ class ContactModal extends HTMLElement {
     document.querySelector("#nav-bar").classList.toggle("hidden");
     this.classList.toggle("hidden");
     this.classList.toggle("flex");
+    this.toggleBodyScroll();
+  }
+  toggleBodyScroll() {
+    const body = document.body;
+    if (this.classList.contains("hidden")) {
+      body.classList.remove("overflow-y-hidden");
+    } else {
+      body.classList.add("overflow-y-hidden");
+    }
   }
 }
 
@@ -1084,6 +1105,24 @@ class ContactForm extends HTMLElement {
   }
 }
 
+
+class LoadingScreen extends HTMLElement {
+  constructor() {
+    super();
+    this.id = "loading-screen";
+    this.classList = "absolute w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-surface3 z-50";
+    this.innerHTML = `<div role="status">
+    <svg aria-hidden="true" class="h-[10rem] w-auto text-gray-200 animate-spin dark:text-secondary fill-primary" viewBox="0 0 100 101" fill="none"">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="sr-only">Loading...</span>`;
+  }
+  toggle() {
+    this.classList.toggle("hidden");
+  }
+}
+
 const customElementsList = [
   ["special-header", SpecialHeader],
   ["special-footer", SpecialFooter],
@@ -1093,7 +1132,8 @@ const customElementsList = [
   ["certifications-list", CertificationsList],
   ["contact-button", ContactButton],
   ["contact-modal", ContactModal],
-  ["contact-form", ContactForm]
+  ["contact-form", ContactForm],
+  ["loading-screen", LoadingScreen],
 ];
 
 function addCustomElements(list) {
@@ -1104,4 +1144,5 @@ function addCustomElements(list) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   addCustomElements(customElementsList);
+  document.querySelector("#loading-screen").toggle();
 });
