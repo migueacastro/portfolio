@@ -21,7 +21,7 @@ class ContactButton extends HTMLElement {
   constructor() {
     super();
     this.className =
-      "transition-all duration-200 w-fit hover:scale-110 hover:bg-secondary contact-button p-[1rem] flex flex-col justify-center bg-gradient-to-r from-primary to-secondary font-bold text-nowrap text-md md:text-xl text-surface3 hover:text-surface3 rounded-2xl";
+      "transition-all duration-200 w-fit z-20 hover:scale-110 hover:bg-secondary contact-button p-[1rem] flex flex-col justify-center bg-gradient-to-r from-primary to-secondary font-bold text-nowrap text-md md:text-xl text-surface3 hover:text-surface3 rounded-2xl";
     this.innerHTML = "Contact Me";
   }
 }
@@ -165,7 +165,7 @@ class ProjectList extends HTMLElement {
     super();
     this.projects = [];
     this.className =
-      "space-y-3 md:space-y-0 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5 mb-[3rem] mt-[3rem] w-full";
+      "space-y-6 md:space-y-3 md:space-y-0 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5 mb-[3rem] mt-[3rem] w-full";
     this.id = "projects-list";
   }
 
@@ -353,6 +353,7 @@ class ProjectModal extends HTMLElement {
         "beforeend",
         `<img
           id="project-modal-image-${i}"
+          
           src="./media/${image}"
           class="rounded-xl ${this.project.mobile
             ? "md:h-[30rem]  object-contain"
@@ -362,6 +363,7 @@ class ProjectModal extends HTMLElement {
           alt="${this.project.title}"
         />`
       );
+      imageWrapper.querySelector("img").addEventListener("click", () => this.toggleFullScreen());
       i++;
     }
   }
@@ -375,7 +377,7 @@ class ProjectModal extends HTMLElement {
     for (let skill of this.project.skills) {
       skillElement = document.createElement("div");
       skillElement.className =
-        "p-2 md:p-3 flex-row flex space-x-2 bg-primary m-3 rounded-xl items-center";
+        "p-2 md:p-3 flex-row flex space-x-2 bg-primary m-1 md:m-3 rounded-xl items-center";
       skillElement.innerHTML = `
       <h4 class="text-xs md:text-sm text-surface3">${skill.name}</h4><img src="./media/${skill.icon}" class="w-[1rem] h-[1rem] md:w-[2rem] md:h-[2rem]"></img>
       `;
@@ -418,6 +420,16 @@ class ProjectModal extends HTMLElement {
     document.querySelector("#nav-bar").classList.toggle("hidden");
     this.classList.toggle("hidden");
     this.classList.toggle("flex");
+  }
+
+  toggleFullScreen() {
+    let element =  this.querySelector(".fullscreen-image");
+    if (element.classList.contains("hidden")) {
+      element.classList.remove("hidden");
+    } else {
+      element.classList.add("hidden");
+    }
+   
   }
 
   constructor() {
@@ -503,13 +515,25 @@ class ProjectModal extends HTMLElement {
     );
     this.nextButton.onclick = () => this.nextImage();
 
+    this.fullScreenElement = document.createElement("div");
+    this.fullScreenElement.className =
+      "fullscreen-image fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-0";
+    this.fullScreenElement.innerHTML = `
+      <img
+          id="project-modal-image-fullscreen"
+          onclick="this.requestFullscreen()"
+          "
+        />
+    `;
+  
     this.previousButton = this.contentWrapperElement.querySelector(
       "#project-modal-previous-button"
     );
+    
     this.previousButton.onclick = () => this.previousImage();
 
     this.contentElement.appendChild(this.contentWrapperElement);
-
+    this.appendChild(this.fullScreenElement);
     this.render();
   }
 
@@ -593,11 +617,11 @@ class ContactModal extends HTMLElement {
     super();
     this.id = "contact-modal";
     this.className =
-      "fixed overflow-y-auto top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-[2rem]";
+      "fixed overflow-y-scroll top-0 left-0 w-full h-full bg-black bg-opacity-70 hidden z-50 justify-center items-center px-[1rem] md:px-[2rem]";
 
     this.contentElement = document.createElement("div");
     this.contentElement.className =
-      "top-[5rem] bg-surface3 min-h-[30rem] rounded-xl p-5 md:p-[3rem] lg:w-[80%] mx-auto relative h-fit overflow-y-auto";
+      "top-[5rem] bg-surface3 min-h-[30rem] rounded-xl p-5 md:p-[3rem] lg:w-[80%] mx-auto relative h-fit overflow-y-auto mb-[3rem]";
     this.contentElement.innerHTML = `
       <h1 class="text-4xl mb-6 lg:text-6xl font-bold text-surface2 text-center">
           Contact Me
