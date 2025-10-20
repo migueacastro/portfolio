@@ -953,10 +953,14 @@ class ContactForm extends HTMLElement {
     this.form.appendChild(cloudfareTurnstile);
 
     window.onSuccess = () => {
+      this.form.turnstileValid = true;
+      this.validateFields();
       console.log("Turnstile completed");
     };
 
     window.onError = () => {
+      this.form.turnstileValid = false;
+      this.validateFields();
       console.log("Turnstile error");
     };
 
