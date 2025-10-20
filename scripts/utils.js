@@ -298,9 +298,10 @@ class SkillsList extends HTMLElement {
     if (isNaN(skill.level)) {
       skillLevelElement.innerHTML = `<div class="font-bold text-3xl text-surface2"> ${skill.level}</div>`;
     } else {
-    for (let i = 0; i < 5; i++) {
-      skillLevelElement.appendChild(this.loadSkillLevel(i, skill.level));
-    }}
+      for (let i = 0; i < 5; i++) {
+        skillLevelElement.appendChild(this.loadSkillLevel(i, skill.level));
+      }
+    }
     return skillElement;
   }
 
@@ -928,7 +929,6 @@ class ContactForm extends HTMLElement {
       </div>`;
 
       element.querySelector(".field").addEventListener("input", event => {
-        console.log("input event fired", field.name, event.target.value);
         event.target.classList.add("touched");
         this.validateFields();
       });
@@ -936,27 +936,44 @@ class ContactForm extends HTMLElement {
       this.form.appendChild(element);
     }
 
-   
-    const formErrorElement = document.createElement("div");
-    formErrorElement.className =
+    this.formErrorElement = document.createElement("div");
+    this.formErrorElement.className =
       "server-error text-red-400 text-sm mt-1 w-full hidden";
-    formErrorElement.innerHTML = "Something went wrong.";
+    this.formErrorElement.innerHTML = "Something went wrong.";
 
-    
-    this.form.appendChild(formErrorElement);
-
-   
+    this.form.appendChild(this.formErrorElement);
   }
 
   addSubmitButton() {
+    let cloudfareTurnstile = document.createElement("div");
+    cloudfareTurnstile.className = "cf-turnstile w-full mx-2";
+    cloudfareTurnstile.dataset.sitekey = "0x4AAAAAAB7tkIyxN0F4lFz2";
+    cloudfareTurnstile.setAttribute("data-callback", "onSuccess");
+    cloudfareTurnstile.setAttribute("data-error-callback", "onError");
+    this.form.appendChild(cloudfareTurnstile);
+
+    window.onSuccess = () => {
+      console.log("Turnstile completed");
+    };
+
+    window.onError = () => {
+      console.log("Turnstile error");
+    };
+
     let button = document.createElement("button");
     button.innerHTML = "Submit";
     button.className =
       "mt-4 mx-auto transition-all duration-200 w-fit hover:scale-110 hover:bg-secondary p-[1rem] px-[4rem] flex flex-col justify-center bg-gradient-to-r from-primary to-secondary font-bold text-nowrap text-md md:text-2xl text-surface3 hover:text-surface3 rounded-2xl";
     button.addEventListener("click", e => {
       e.preventDefault();
+      this.querySelectorAll(".field").forEach(f => f.classList.add("touched"));
+      this.validateFields();
+
+      if (button.disabled) return;
+
       this.submitForm();
     });
+
     button.type = "button";
     this.form.appendChild(button);
     this.validateFields();
@@ -1029,17 +1046,21 @@ class ContactForm extends HTMLElement {
 
       invalidFeedback.classList.add("hidden");
       emptyFeedback.classList.add("hidden");
-      if (
-        (element.type == "email" && !this.isValidEmail(element.value)) ||
-        element.value.toString().length < 3
-      ) {
-        if (element.classList.contains("touched")) {
-          invalidFeedback.classList.remove("hidden");
-        }
+
+      if (element.value.trim() === "") {
+        if (element.classList.contains("touched"))
+          emptyFeedback.classList.remove("hidden");
         valid = false;
+      } else if (element.type == "email" && !this.isValidEmail(element.value)) {
+        valid = false;
+        if (element.classList.contains("touched"))
+          invalidFeedback.classList.remove("hidden");
       }
     });
-
+    if (!this.form.turnstileValid) {
+      valid = false;
+    }
+    this.form.valid = valid;
     if (valid) {
       this.enableSubmitButton();
     } else {
@@ -1052,8 +1073,6 @@ class ContactForm extends HTMLElement {
   }
 
   submitForm() {
-   
-    this.querySelector(".captcha-feedback").classList.add("hidden");
     const formData = new FormData(this.form);
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
@@ -1079,22 +1098,24 @@ class ContactForm extends HTMLElement {
           console.log(response);
           this.formErrorElement.classList.remove("hidden");
           this.form.classList.remove("opacity-0");
+          this.loadingElement.classList.add("hidden");
         }
       })
       .catch(error => {
         console.log(error);
         this.formErrorElement.classList.remove("hidden");
         this.form.classList.remove("opacity-0");
+        this.loadingElement.classList.add("hidden");
       });
   }
 }
-
 
 class LoadingScreen extends HTMLElement {
   constructor() {
     super();
     this.id = "loading-screen";
-    this.classList = "absolute w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-surface3 z-50";
+    this.classList =
+      "absolute w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-surface3 z-50";
     this.innerHTML = `<div role="status">
     <svg aria-hidden="true" class="h-[10rem] w-auto text-gray-200 animate-spin dark:text-secondary fill-primary" viewBox="0 0 100 101" fill="none"">
         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
@@ -1117,7 +1138,7 @@ const customElementsList = [
   ["contact-button", ContactButton],
   ["contact-modal", ContactModal],
   ["contact-form", ContactForm],
-  ["loading-screen", LoadingScreen],
+  ["loading-screen", LoadingScreen]
 ];
 
 function addCustomElements(list) {
