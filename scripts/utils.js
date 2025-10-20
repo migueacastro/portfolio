@@ -868,7 +868,6 @@ class ContactForm extends HTMLElement {
     this.form.className =
       "w-full flex flex-row flex-wrap transition-all duration-500";
     this.form.method = "POST";
-    this.form.innerHTML = `<input type="hidden" name="access_key" value="4f234f3e-f608-4c4a-81ae-27b1bd89188a"><input type="checkbox" name="botcheck" id="" style="display: none;">`;
 
     this.appendChild(this.form);
 
@@ -904,6 +903,7 @@ class ContactForm extends HTMLElement {
     this.addSubmitButton();
     this.appendChild(this.loadingElement);
     this.disableSubmitButton();
+    // this.form.turnstileValid = true; to skip turnstile for testing
   }
 
   addFieldElements(list) {
@@ -1078,18 +1078,12 @@ class ContactForm extends HTMLElement {
 
   submitForm() {
     const formData = new FormData(this.form);
-    const object = Object.fromEntries(formData);
-    const json = JSON.stringify(object);
     this.form.classList.add("opacity-0");
     this.loadingElement.classList.remove("hidden");
 
-    fetch("https://api.web3forms.com/submit", {
+    fetch("https://formspree.io/f/myznaebr", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: json
+      body: formData
     })
       .then(async response => {
         let json = await response.json();
