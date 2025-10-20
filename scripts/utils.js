@@ -903,7 +903,7 @@ class ContactForm extends HTMLElement {
     this.addSubmitButton();
     this.appendChild(this.loadingElement);
     this.disableSubmitButton();
-    // this.form.turnstileValid = true; to skip turnstile for testing
+    //this.form.turnstileValid = true; //to skip turnstile for testing
   }
 
   addFieldElements(list) {
@@ -1080,10 +1080,15 @@ class ContactForm extends HTMLElement {
     const formData = new FormData(this.form);
     this.form.classList.add("opacity-0");
     this.loadingElement.classList.remove("hidden");
+    formData.delete("cf-turnstile-response"); // Remove turnstile response from form data
 
-    fetch("https://formspree.io/f/myznaebr", {
-      method: "POST",
-      body: formData
+    fetch("https://formcarry.com/s/_yCBvqOeybC", {
+      method: 'POST',
+      headers: { 
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(Object.fromEntries(formData))
     })
       .then(async response => {
         let json = await response.json();
