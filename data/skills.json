@@ -3,9 +3,19 @@
     "name": "Frontend",
     "skills": [
       {
+        "name": "React",
+        "level": 3,
+        "icon": "reactlogo.svg"
+      },
+      {
         "name": "SvelteKit",
         "level": 4,
         "icon": "sveltelogo.svg"
+      },
+      {
+        "name": "Angular",
+        "level": 2,
+        "icon": "angularlogo.svg"
       },
       {
         "name": "SkeletonUI",
@@ -86,13 +96,17 @@
         "name": "Flutter",
         "level": 3,
         "icon": "flutterlogo.svg"
+      },
+      {
+        "name": "React Native",
+        "level": 3,
+        "icon": "reactlogo.svg"
       }
     ]
   },
   {
     "name": "Cloud & DevOps",
     "skills": [
-      
       {
         "name": "Docker Compose",
         "level": 4,
