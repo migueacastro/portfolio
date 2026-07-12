@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "thumbnail": "iutepallogo.png",
+    "company": "IUTEPAL Sede Principal",
+    "title": "Full Stack Developer",
+    "description": "Frontend with SvelteKit & Backend with Django REST",
+    "startDate": "2025",
+    "endDate": "Present",
+    "hidden": false,
+    "details": "Contributing to the Iutepal team by developing the frontend with SvelteKit and the backend with Django REST. Building endpoints to perform massive transactions by implementing good software architecture practices to avoid N+1 queries in the database and for better use of memory on the server for greater speed through REDIS. Refactoring legacy code using the DRY principle to speed up development. Providing CI/CD support when deploying changes from staging to production on the AWS server. Documenting changes using my own autojournal tool with the Gemini API. Coordinating with the team's progress using Git, and delegating minor tasks.",
+    "technologies": ["SvelteKit", "Django REST", "REDIS", "AWS", "Docker", "Git", "CI/CD", "Gemini API"]
+  },
+  {
+    "id": 2,
+    "thumbnail": "dimprologo.svg",
+    "company": "Dimpro Iluminación",
+    "title": "Full Stack Developer",
+    "description": "Order management system with Alegra ERP API",
+    "startDate": "2024",
+    "endDate": "2025",
+    "hidden": false,
+    "details": "I developed a client-server order management application connected to the Alegra ERP API using Django REST. I built the frontend with SvelteKit and SkeletonUI. I used cron jobs in conjunction with Docker Compose to automate database backups and SSL certificate maintenance. I deployed the application on a Linux VPS server with Ubuntu Server from the company Contabo.",
+    "technologies": ["Django REST", "SvelteKit", "SkeletonUI", "Docker", "Cron Jobs", "PostgreSQL", "Ubuntu Server", "Contabo VPS"]
+  }
+]

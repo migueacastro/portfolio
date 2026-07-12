@@ -1114,6 +1114,176 @@ class LoadingScreen extends HTMLElement {
   }
 }
 
+class ExperienceList extends HTMLElement {
+  constructor() {
+    super();
+    this.experiences = [];
+    this.className =
+      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-[3rem] mt-[3rem] w-full";
+    this.id = "experiences-list";
+  }
+
+  async connectedCallback() {
+    const path = this.getAttribute("path");
+    await this.fetchExperiences(path);
+    this.render();
+  }
+
+  async fetchExperiences(path) {
+    try {
+      const response = await fetch(path);
+      this.experiences = await response.json();
+    } catch (error) {
+      console.error("Error fetching experiences:", error);
+      this.experiences = [];
+    }
+  }
+
+  render() {
+    for (let experience of this.experiences) {
+      if (experience.hidden) continue;
+      this.appendChild(this.renderProject(experience));
+    }
+  }
+
+  renderProject(experience) {
+    const li = document.createElement("li");
+    li.id = `experience-${experience.id}`;
+    li.className =
+      "text-surface2 hover:text-primary w-full bg-surface3 rounded-2xl flex flex-col shadow-xl shadow-black/50 p-[1rem] hover:scale-105 transition-all duration-300 experience-card max-h-[28rem] min-h-[20rem]";
+    // max-h-[28rem] = altura máxima cuando está contraída
+    // min-h-[20rem] = altura mínima cuando está contraída
+    
+    const techs = experience.technologies || [];
+    const displayTechs = techs.slice(0, 5);
+    const remainingTechs = techs.length - 5;
+    
+    li.innerHTML = `
+      <div class="flex flex-col h-full overflow-hidden">
+        <!-- Logo -->
+        <div class="flex justify-center mb-4 flex-shrink-0">
+          <img
+            src="./media/${experience.thumbnail}"
+            class="rounded-xl max-h-[8rem] object-contain bg-surface1/20 p-4"
+            alt="${experience.company}"
+          />
+        </div>
+        
+        <!-- Título y enlaces -->
+        <div class="flex flex-row justify-center items-center space-x-2 flex-wrap flex-shrink-0">
+          <h2 class="text-2xl text-center lg:text-3xl font-bold my-2">
+            ${experience.company}
+          </h2>
+          ${experience.github ? `
+            <a href="${experience.github}" onclick="event.stopPropagation();" class="underline hover:text-secondary" target="_blank">
+              <svg class="h-[3rem] md:h-[3rem] w-fit hover:scale-110 hover:fill-primary fill-surface2 transition-all duration-300" viewBox="0 0 24 24">
+                <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/>
+              </svg>
+            </a>
+          ` : ''}
+          ${experience.demo ? `
+            <a href="${experience.demo}" class="underline hover:text-secondary">[Demo]</a>
+          ` : ''}
+        </div>
+        
+        <!-- Puesto y descripción breve -->
+        <h4 class="text-xl font-light text-center text-surface2 mb-2 flex-shrink-0">
+          ${experience.title}
+        </h4>
+        
+        <!-- Fechas -->
+        <div class="flex flex-row justify-center items-center space-x-4 mb-2 flex-shrink-0">
+          <span class="text-sm text-surface2/80">
+            ${experience.startDate} — ${experience.endDate}
+          </span>
+        </div>
+
+        <!-- Tecnologías -->
+        ${techs.length > 0 ? `
+          <div class="flex flex-wrap justify-center gap-1.5 mb-3 flex-shrink-0">
+            ${displayTechs.map(tech => `
+              <span class="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full border border-primary/20">
+                ${tech}
+              </span>
+            `).join('')}
+            ${remainingTechs > 0 ? `
+              <span class="text-xs bg-surface1/30 text-surface2/70 px-2.5 py-1 rounded-full border border-surface1/30">
+                +${remainingTechs}
+              </span>
+            ` : ''}
+          </div>
+        ` : ''}
+
+        <!-- Botón Read More -->
+        <div class="mt-auto pt-2 border-t border-surface1/30 flex-shrink-0">
+          <button 
+            class="text-sm text-secondary hover:text-primary transition-all duration-300 flex items-center justify-center gap-2 w-full"
+            onclick="
+              const card = this.closest('.experience-card');
+              const details = card.querySelector('.details-content');
+              const icon = this.querySelector('svg');
+              const span = this.querySelector('span');
+              const isHidden = details.classList.contains('hidden');
+              
+              if (isHidden) {
+                // Expandir: quitar max-h y permitir crecimiento
+                card.classList.remove('max-h-[28rem]');
+                card.classList.add('max-h-full');
+                details.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+                span.textContent = 'Show less';
+              } else {
+                // Contraer: volver a poner max-h
+                card.classList.add('max-h-[28rem]');
+                card.classList.remove('max-h-full');
+                details.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+                span.textContent = 'Read more';
+              }
+            "
+          >
+            <span>Read more</span>
+            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Detalles expandibles -->
+        <div class="details-content hidden mt-3 pt-3 border-t border-surface1/30 space-y-3">
+          <p class="text-sm text-surface2/80 leading-relaxed">
+            ${experience.details || 'No additional details available.'}
+          </p>
+          ${experience.github || experience.demo ? `
+            <div class="flex gap-4 pt-2">
+              ${experience.github ? `
+                <a href="${experience.github}" target="_blank" 
+                   class="text-sm text-secondary hover:text-primary transition-colors duration-200 flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/>
+                  </svg>
+                  GitHub
+                </a>
+              ` : ''}
+              ${experience.demo ? `
+                <a href="${experience.demo}" target="_blank" 
+                   class="text-sm text-secondary hover:text-primary transition-colors duration-200 flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                  Demo
+                </a>
+              ` : ''}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    
+    return li;
+  }
+}
+
 const customElementsList = [
   ["special-header", SpecialHeader],
   ["special-footer", SpecialFooter],
@@ -1124,7 +1294,8 @@ const customElementsList = [
   ["contact-button", ContactButton],
   ["contact-modal", ContactModal],
   ["contact-form", ContactForm],
-  ["loading-screen", LoadingScreen]
+  ["loading-screen", LoadingScreen],
+  ["experience-list", ExperienceList]
 ];
 
 function addCustomElements(list) {
